@@ -24,17 +24,14 @@ class _QuestionFormPageState extends State<QuestionFormPage> {
       final description = _descriptionController.text;
       final tags = _tagsController.text.split(',').map((tag) => tag.trim()).toList();
 
-      // Printing values (simulates submission)
       print('Question Title: $title');
       print('Question Description: $description');
       print('Tags: $tags');
 
-      // Clear input fields after submission
       _titleController.clear();
       _descriptionController.clear();
       _tagsController.clear();
 
-      // Show confirmation message
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Your question has been submitted!')),
       );
