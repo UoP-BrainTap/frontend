@@ -93,7 +93,7 @@ class _SignupPageState extends State<SignupPage> {
                           }
                         },
                         color: Theme.of(context).highlightColor,
-                        child: const Text('Signup')
+                        child: const Text('Sign up')
                     ),
                     const SizedBox(height: 20),
                     Row(
