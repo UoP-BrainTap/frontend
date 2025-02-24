@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       theme: ThemeData(
+        fontFamily: 'Poppins',
         brightness: Brightness.dark,
         inputDecorationTheme: const InputDecorationTheme(
           border: OutlineInputBorder(),
