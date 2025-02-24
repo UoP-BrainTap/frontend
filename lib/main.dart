@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/pages/home_page.dart';
 import 'package:frontend/pages/login_page.dart';
 import 'package:frontend/pages/signup_page.dart';
+import 'package:frontend/pages/question_creation_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_strategy/url_strategy.dart';
 
@@ -26,6 +27,10 @@ class MyApp extends StatelessWidget {
           GoRoute(
             path: 'signup',
             builder: (context, state) => const SignupPage(),
+          ),
+          GoRoute(
+            path: 'question',
+            builder: (context, state) => const QuestionCreationPage(),
           ),
         ]
       ),
