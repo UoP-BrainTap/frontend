@@ -32,6 +32,16 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                const SizedBox(height: 40),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Login',
+                      style: Theme.of(context).textTheme.headlineMedium,
+                    )
+                  ],
+                ),
                 const SizedBox(height: 20),
                 TextFormField(
                   decoration: const InputDecoration(

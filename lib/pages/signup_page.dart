@@ -35,6 +35,16 @@ class _SignupPageState extends State<SignupPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    const SizedBox(height: 40),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Login',
+                          style: Theme.of(context).textTheme.headlineMedium,
+                        )
+                      ],
+                    ),
                     const SizedBox(height: 20),
                     TextFormField(
                       decoration: const InputDecoration(
@@ -93,7 +103,7 @@ class _SignupPageState extends State<SignupPage> {
                           }
                         },
                         color: Theme.of(context).highlightColor,
-                        child: const Text('Signup')
+                        child: const Text('Sign up')
                     ),
                     const SizedBox(height: 20),
                     Row(
