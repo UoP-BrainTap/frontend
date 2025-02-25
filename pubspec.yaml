@@ -39,6 +39,9 @@ dependencies:
   email_validator: ^3.0.0
   url_strategy: ^0.3.0
   password_strength_checker: ^1.2.4
+  provider: ^6.1.2
+  shared_preferences: ^2.5.2
+  dio: ^5.8.0+1
 
 dev_dependencies:
   flutter_test:
