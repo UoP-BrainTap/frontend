@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/pages/QC_page.dart';
 import 'package:frontend/pages/home_page.dart';
 import 'package:frontend/pages/login_page.dart';
 import 'package:frontend/pages/signup_page.dart';
@@ -10,9 +11,10 @@ import 'package:dio/dio.dart';
 
 void main() {
   setPathUrlStrategy();
-  runApp(MultiProvider(providers: [
-    // ChangeNotifierProvider(create: (context) => AuthProvider()),
-  ], child: MyApp()));
+  // runApp(MultiProvider(providers: [
+  //   // ChangeNotifierProvider(create: (context) => AuthProvider()),
+  // ], child: MyApp()));
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -32,6 +34,20 @@ class MyApp extends StatelessWidget {
             path: 'signup',
             builder: (context, state) => const SignupPage(),
           ),
+          GoRoute(
+            path: 'question',
+            redirect: (_, state) {
+              if (state.uri.toString().endsWith("question")) {
+                return '/';
+              }
+            },
+            routes: [
+              GoRoute(
+                path: 'create',
+                builder: (context, state) => QuestionFormPage(),
+              )
+            ]
+          )
         ]
       ),
     ],
