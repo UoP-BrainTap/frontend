@@ -3,6 +3,7 @@ import 'package:frontend/pages/QC_page.dart';
 import 'package:frontend/pages/home_page.dart';
 import 'package:frontend/pages/login_page.dart';
 import 'package:frontend/pages/signup_page.dart';
+import 'package:frontend/pages/faq.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -33,6 +34,10 @@ class MyApp extends StatelessWidget {
           GoRoute(
             path: 'signup',
             builder: (context, state) => const SignupPage(),
+          ),
+          GoRoute(
+            path:'FAQ',
+            builder: (context, state) => FAQpage(),
           ),
           GoRoute(
             path: 'question',
@@ -95,3 +100,5 @@ class DioProvider {
     return instance;
   }
 }
+
+
