@@ -95,7 +95,7 @@ class HomeScreen extends StatelessWidget {
                       ButtonWidget(
                         text: "Play now",
                         onPressed: () {
-                          context.go('/play');
+                          context.go('/join');
                         },
                         color: Colors.deepPurple,
                         textColor: Colors.white,

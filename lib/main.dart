@@ -3,6 +3,7 @@ import 'package:frontend/pages/QC_page.dart';
 import 'package:frontend/pages/home_page.dart';
 import 'package:frontend/pages/login_page.dart';
 import 'package:frontend/pages/signup_page.dart';
+import 'package:frontend/pages/join_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,11 +36,16 @@ class MyApp extends StatelessWidget {
             builder: (context, state) => const SignupPage(),
           ),
           GoRoute(
+              path: 'join',
+              builder: (context, state) => const JoinSessionPage(),
+          ),
+          GoRoute(
             path: 'question',
             redirect: (_, state) {
               if (state.uri.toString().endsWith("question")) {
                 return '/';
               }
+              return null;
             },
             routes: [
               GoRoute(
