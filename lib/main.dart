@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/pages/QC_page.dart';
+//import 'package:frontend/pages/QC_page.dart';
 import 'package:frontend/pages/home_page.dart';
 import 'package:frontend/pages/login_page.dart';
 import 'package:frontend/pages/signup_page.dart';
@@ -41,17 +41,18 @@ class MyApp extends StatelessWidget {
           ),
           GoRoute(
             path: 'question',
-            redirect: (_, state) {
+            redirect: (_, state)  {
               if (state.uri.toString().endsWith("question")) {
                 return '/';
               }
+              return null;
             },
-            routes: [
-              GoRoute(
-                path: 'create',
-                builder: (context, state) => QuestionFormPage(),
-              )
-            ]
+//            routes: [
+//              GoRoute(
+//                path: 'create',
+//                builder: (context, state) => QuestionFormPage(),
+//              )
+//            ]
           )
         ]
       ),

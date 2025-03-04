@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class FAQpage extends StatelessWidget {
+
   final List<FAQ> faqlist = [
     FAQ(question: "A", answer: "B"),
     FAQ(question: "C", answer: "D"),
@@ -10,7 +11,7 @@ class FAQpage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("FAQ")),
+      appBar: AppBar(title: const Text("FAQ")),
       body: ListView.builder(
         itemCount: faqlist.length,
         itemBuilder: (context, index) {
