@@ -3,6 +3,7 @@ import 'package:frontend/pages/QC_page.dart';
 import 'package:frontend/pages/home_page.dart';
 import 'package:frontend/pages/login_page.dart';
 import 'package:frontend/pages/signup_page.dart';
+import 'package:frontend/pages/question_creation_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -44,7 +45,7 @@ class MyApp extends StatelessWidget {
             routes: [
               GoRoute(
                 path: 'create',
-                builder: (context, state) => QuestionFormPage(),
+                builder: (context, state) => const QuestionCreationPage(),
               )
             ]
           )
