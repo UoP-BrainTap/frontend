@@ -48,6 +48,13 @@ class HomeScreen extends StatelessWidget {
             textColor: Colors.white,
           ),
           const SizedBox(width: 50),
+          ButtonWidget(text: "FAQ", onPressed: (){
+            context.go('/FAQ');
+          },
+            color: Colors.black,
+            textColor: Colors.white,
+          ),
+          const SizedBox(width: 90),
         ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(2), // Border thickness

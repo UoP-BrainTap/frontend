@@ -12,19 +12,44 @@ class FAQpage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("FAQ")),
-      body: ListView.builder(
-        itemCount: faqlist.length,
-        itemBuilder: (context, index) {
-          return ExpansionTile(
-            title: Text(faqlist[index].question),
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text(faqlist[index].answer),
-              ),
-            ],
-          );
-        },
+      body: Column(
+        children: [
+          ElevatedButton(
+            onPressed: () {
+              // Example: Show a dialog when the button is clicked
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: Text("Feature Coming Soon"),
+                  content: Text("This button can be used to add new FAQs!"),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: Text("OK"),
+                    ),
+                  ],
+                ),
+              );
+            },
+            child: Text("Add FAQ"),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: faqlist.length,
+              itemBuilder: (context, index) {
+                return ExpansionTile(
+                  title: Text(faqlist[index].question),
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text(faqlist[index].answer),
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
