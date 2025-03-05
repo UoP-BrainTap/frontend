@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
 import '../widgets/button.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class HomeScreenLandscape extends StatelessWidget {
+  const HomeScreenLandscape({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +30,7 @@ class HomeScreen extends StatelessWidget {
         actions: [
           const SizedBox(width: 20),
           ButtonWidget(
+            width: 110,
             text: "Log in",
             onPressed: () {
               context.go('/login');
@@ -40,6 +40,7 @@ class HomeScreen extends StatelessWidget {
           ),
           const SizedBox(width: 10),
           ButtonWidget(
+            width: 110,
             text: "Sign up",
             onPressed: () {
               context.go('/signup');
@@ -48,39 +49,33 @@ class HomeScreen extends StatelessWidget {
             textColor: Colors.white,
           ),
           const SizedBox(width: 50),
-          ButtonWidget(text: "FAQ", onPressed: (){
-            context.go('/FAQ');
-          },
-            color: Colors.black,
-            textColor: Colors.white,
-          ),
-          const SizedBox(width: 90),
         ],
         bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(2), // Border thickness
+          preferredSize: const Size.fromHeight(2),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 60), // Padding on both sides
+            padding: const EdgeInsets.symmetric(horizontal: 60),
             child: Opacity(
-              opacity: 0.5, // Adjust opacity (0 = fully transparent, 1 = fully visible)
+              opacity: 0.5,
               child: Container(
-                color: Colors.black, // Border color
-                height: 2, // Border thickness
+                color: Colors.black,
+                height: 2,
               ),
             ),
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 100), // Adds top padding
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start, // Aligns content to the top
-          children: [
-            // Left Side: Text Content
-            Expanded(
-              child: SingleChildScrollView( // Add this to prevent overflow
+
+      // Scrollable Body with Row Layout
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 40),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // Left Side: Text Content
+              Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     const Text(
                       "LET'S START THE GAME!",
@@ -101,6 +96,7 @@ class HomeScreen extends StatelessWidget {
                     Row(
                       children: [
                         ButtonWidget(
+                          width: 130,
                           text: "Play now",
                           onPressed: () {
                             context.go('/play');
@@ -122,29 +118,90 @@ class HomeScreen extends StatelessWidget {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              const SizedBox(height: 5), // Space between text and underline
+                              const SizedBox(height: 5),
                               Container(
-                                width: 130, // Match text width
-                                height: 2, // Thickness of underline
-                                color: Colors.deepPurple, // Underline color
+                                width: 130,
+                                height: 2,
+                                color: Colors.deepPurple,
                               ),
                             ],
                           ),
                         ),
                       ],
                     ),
+                    const SizedBox(height: 40), // Prevents text from being too close
                   ],
                 ),
               ),
-            ),
-            // Right Side: Image
-            Expanded(
-              child: Align(
-                alignment: Alignment.topCenter, // Aligns image to the top
+              const SizedBox(width: 40), // Space between text and image
+
+              // Right Side: Image (Kept Fixed)
+              SizedBox(
+                width: 400, // Adjust width as needed
                 child: Image.asset(
                   'assets/images/home_page_photo.png',
-                  width: 400,
                   fit: BoxFit.contain,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+
+      // Bottom AppBar
+      bottomNavigationBar: SizedBox(
+        height: 200,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Black border at the top
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 60),
+              child: Opacity(
+                opacity: 0.5,
+                child: Container(
+                  height: 2,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            Expanded(
+              child: BottomAppBar(
+                color: Colors.white,
+                elevation: 0,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      // Left: Copyright
+                      const Text(
+                        "© 2025 BrainTap. All rights reserved.",
+                        style: TextStyle(color: Colors.black54, fontSize: 16),
+                      ),
+                      // Center: University logo
+                      Image.asset(
+                        'assets/images/uni_logo.png',
+                        height: 100,
+                      ),
+                      // Right: Privacy Policy and Terms
+                      TextButton(
+                        onPressed: () {},
+                        child: const Text(
+                          "Privacy Policy",
+                          style: TextStyle(color: Colors.black, fontSize: 16),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {},
+                        child: const Text(
+                          "Terms of Service",
+                          style: TextStyle(color: Colors.black, fontSize: 16),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

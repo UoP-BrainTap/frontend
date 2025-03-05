@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/pages/home_page_landscape.dart';
+import 'package:frontend/pages/home_page_portrait.dart';
 //import 'package:frontend/pages/QC_page.dart';
 import 'package:frontend/pages/home_page.dart';
 import 'package:frontend/pages/login_page.dart';
@@ -24,38 +26,42 @@ class MyApp extends StatelessWidget {
   final _router = GoRouter(
     routes: [
       GoRoute(
-        path: '/',
-        builder: (context, state) => const HomeScreen(),
-        routes: [
-          GoRoute(
-            path: 'login',
-            builder: (context, state) => const LoginPage(),
-          ),
-          GoRoute(
-            path: 'signup',
-            builder: (context, state) => const SignupPage(),
-          ),
-          GoRoute(
-            path:'FAQ',
-            builder: (context, state) => FAQpage(),
-          ),
-          GoRoute(
-            path: 'question',
-            redirect: (_, state)  {
-              if (state.uri.toString().endsWith("question")) {
-                return '/';
-              }
-              return null;
-            },
+          path: '/',
+          builder: (context, state) {
+            final screenWidth = MediaQuery.of(context).size.width;
+            return screenWidth > 1000 // Adjust breakpoint as needed
+                ? const HomeScreenLandscape()
+                : const HomeScreenPortrait();
+          },
+          routes: [
+            GoRoute(
+              path: 'login',
+              builder: (context, state) => LoginPage(),
+            ),
+            GoRoute(
+              path: 'signup',
+              builder: (context, state) => const SignupPage(),
+            ),
+            GoRoute(
+              path: 'FAQ',
+              builder: (context, state) => FAQpage(),
+            ),
+            GoRoute(
+              path: 'question',
+              redirect: (_, state) {
+                if (state.uri.toString().endsWith("question")) {
+                  return '/';
+                }
+                return null;
+              },
 //            routes: [
 //              GoRoute(
 //                path: 'create',
 //                builder: (context, state) => QuestionFormPage(),
 //              )
 //            ]
-          )
-        ]
-      ),
+            )
+          ]),
     ],
   );
 
@@ -81,25 +87,20 @@ class DioProvider {
   Dio get dio {
     var instance = Dio();
     instance.options.baseUrl = 'http://localhost:8080';
-    instance.interceptors.add(
-      InterceptorsWrapper(
-        onRequest: (options, handler) async {
-          // get access token from shared preferences
-          var shared = await SharedPreferences.getInstance();
-          var token = shared.getString('accessToken');
-          if (token == null || token.isEmpty) {
-            handler.next(options);
-            return;
-          }
+    instance.interceptors
+        .add(InterceptorsWrapper(onRequest: (options, handler) async {
+      // get access token from shared preferences
+      var shared = await SharedPreferences.getInstance();
+      var token = shared.getString('accessToken');
+      if (token == null || token.isEmpty) {
+        handler.next(options);
+        return;
+      }
 
-          // add token to headers
-          options.headers['Authorization'] = 'Bearer $token';
-          handler.next(options);
-        }
-      )
-    );
+      // add token to headers
+      options.headers['Authorization'] = 'Bearer $token';
+      handler.next(options);
+    }));
     return instance;
   }
 }
-
-
