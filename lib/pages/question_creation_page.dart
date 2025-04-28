@@ -75,7 +75,11 @@ class QuestionTypeSelector extends StatelessWidget {
   final bool active;
   final VoidCallback onPressed;
 
-  const QuestionTypeSelector({super.key, required this.type, required this.onPressed, required this.active});
+  const QuestionTypeSelector(
+      {super.key,
+      required this.type,
+      required this.onPressed,
+      required this.active});
 
   @override
   Widget build(BuildContext context) {
@@ -111,63 +115,154 @@ class MultipleChoiceQuestionCreation extends StatefulWidget {
   }
 }
 
-class _MultipleChoiceQuestionCreation extends State<MultipleChoiceQuestionCreation> {
+class _MultipleChoiceQuestionCreation
+    extends State<MultipleChoiceQuestionCreation> {
   final _formKey = GlobalKey<FormState>();
 
+  // UI data
   final _options = <MultipleChoiceOption>[];
+  bool _isSnackBarActive = false;
+
+  // Form data
+  String? _questionTitle;
 
   _optionAdded() {
-    if (_options.length >= 5) {
+    if (_options.length >= 6) {
+      if (!_isSnackBarActive) {
+        // notify user that they can't add more options
+        _isSnackBarActive = true;
+        ScaffoldMessenger.of(context)
+            .showSnackBar(
+              const SnackBar(
+                content: Text('You can only add 6 options'),
+                duration: Duration(seconds: 2),
+              ),
+            )
+            .closed
+            .then((_) {
+          _isSnackBarActive = false;
+        });
+      }
       return;
     }
     setState(() {
-      _options.add(MultipleChoiceOption(canDelete: true, onDelete: _optionDeleted));
+      var key = GlobalKey<_MultipleChoiceOptionWidgetState>();
+      var widget = MultipleChoiceOptionWidget(
+          key: key,
+          canDelete: true,
+          onDelete: _optionDeleted,
+        );
+      _options.add(MultipleChoiceOption(key, widget));
     });
   }
 
-  _optionDeleted(MultipleChoiceOption option) {
+  _optionDeleted(MultipleChoiceOptionWidget option) {
     setState(() {
       _options.remove(option);
     });
   }
 
+  _submit() {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+    _formKey.currentState!.save();
+    print(_questionTitle);
+    for (var option in _options) {
+      print(option.state.currentState?._optionTitle);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    var key1 = GlobalKey<_MultipleChoiceOptionWidgetState>();
+    var widget1 = MultipleChoiceOptionWidget(
+      key: key1,
+      canDelete: true,
+      onDelete: _optionDeleted,
+    );
+    _options.add(MultipleChoiceOption(key1, widget1));
+    var key2 = GlobalKey<_MultipleChoiceOptionWidgetState>();
+    var widget2 = MultipleChoiceOptionWidget(
+      key: key2,
+      canDelete: true,
+      onDelete: _optionDeleted,
+    );
+    _options.add(MultipleChoiceOption(key2, widget2));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Form(child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 500),
-        child: Column(
-          children: [
-            TextFormField(
-              decoration: const InputDecoration(
-                labelText: 'Question',
+      child: Form(
+        key: _formKey,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 500),
+          child: Column(
+            children: [
+              TextFormField(
+                decoration: const InputDecoration(
+                  labelText: 'Question',
+                ),
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (value) {
+                  return value != null && value.isNotEmpty
+                      ? null
+                      : 'Please enter a question title';
+                },
+                onSaved: (value) {
+                  _questionTitle = value;
+                },
               ),
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              validator: (value) {
-                return value != null && value.isNotEmpty ? null : 'Please enter a question title';
-              },
-            ),
-            const MultipleChoiceOption(canDelete: false, onDelete: null),
-            const MultipleChoiceOption(canDelete: false, onDelete: null),
-            ..._options,
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: MaterialButton(onPressed: () {
-                _optionAdded();
-              }, child: const Text('Add Option'),)
-            ),
-          ],
-        ),
-      ))
+              ..._options.map((option) {
+                return option.widget;
+              }),
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: MaterialButton(
+                  onPressed: () {
+                    _optionAdded();
+                  },
+                  child: const Text('Add Option'),
+                )
+              ),
+              const SizedBox(height: 10),
+              ButtonWidget(text: "Create Question", onPressed: _submit)
+            ],
+          ),
+        )
+      )
     );
   }
 }
 
-class MultipleChoiceOption extends StatelessWidget {
+class MultipleChoiceOption {
+  GlobalKey<_MultipleChoiceOptionWidgetState> state;
+  MultipleChoiceOptionWidget widget;
+
+  MultipleChoiceOption(this.state, this.widget);
+}
+
+class MultipleChoiceOptionWidget extends StatefulWidget {
   final bool canDelete;
   final Function? onDelete;
 
-  const MultipleChoiceOption({super.key, required this.canDelete, required this.onDelete});
+  const MultipleChoiceOptionWidget(
+      {super.key, required this.canDelete, required this.onDelete});
+
+  @override
+  State<StatefulWidget> createState() {
+    return _MultipleChoiceOptionWidgetState();
+  }
+}
+
+class _MultipleChoiceOptionWidgetState
+    extends State<MultipleChoiceOptionWidget> {
+
+  // Form Data
+  String? _optionTitle = "";
+  bool? _isCorrect= false;
 
   @override
   Widget build(BuildContext context) {
@@ -187,36 +282,44 @@ class MultipleChoiceOption extends StatelessWidget {
                     ? null
                     : 'Please enter an option';
               },
+              onSaved: (value) {
+                _optionTitle = value!;
+              },
             ),
           ),
-
           FormField(builder: (state) {
             return Checkbox(
               value: state.value != null ? state.value as bool : false,
               onChanged: (value) {
                 state.didChange(value);
               },
+              activeColor: Colors.green, // Set the active color to green
             );
+          }, onSaved: (value) {
+            _isCorrect = value as bool?;
           }),
           InkWell(
-            borderRadius: BorderRadius.circular(5),
-            onTap: () {
-              onDelete?.call(this);
-            },
-            child: Ink(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: canDelete ? Colors.red : Colors.grey,
-                borderRadius: const BorderRadius.all(Radius.circular(5)),
-              ),
-              child: const Center(
-                child: Text("X"),
-              ),
-            )
-          )
+              borderRadius: BorderRadius.circular(5),
+              onTap: () {
+                widget.onDelete?.call(this);
+              },
+              child: Ink(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: widget.canDelete ? Colors.red : Colors.grey,
+                  borderRadius: const BorderRadius.all(Radius.circular(5)),
+                ),
+                child: const Center(
+                  child: Text("X"),
+                ),
+              ))
         ],
       ),
     );
   }
+
+  bool? get isCorrect => _isCorrect;
+
+  String? get optionTitle => _optionTitle;
 }
