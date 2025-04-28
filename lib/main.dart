@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:frontend/pages/home_page_landscape.dart';
 import 'package:frontend/pages/home_page_portrait.dart';
 //import 'package:frontend/pages/QC_page.dart';
-import 'package:frontend/pages/home_page.dart';
 import 'package:frontend/pages/login_page.dart';
+import 'package:frontend/pages/question_creation_page.dart';
+import 'package:frontend/pages/question_managment_page.dart';
 import 'package:frontend/pages/signup_page.dart';
 import 'package:frontend/pages/faq.dart';
 import 'package:go_router/go_router.dart';
@@ -54,12 +55,16 @@ class MyApp extends StatelessWidget {
                 }
                 return null;
               },
-//            routes: [
-//              GoRoute(
-//                path: 'create',
-//                builder: (context, state) => QuestionFormPage(),
-//              )
-//            ]
+           routes: [
+             GoRoute(
+               path: 'create',
+               builder: (context, state) => const QuestionCreationPage(),
+             ),
+             GoRoute(
+               path: 'manage',
+                builder: (context, state) => const QuestionManagementPage(),
+             )
+           ]
             )
           ]),
     ],
@@ -72,7 +77,6 @@ class MyApp extends StatelessWidget {
       child: MaterialApp.router(
         theme: ThemeData(
           fontFamily: 'Poppins',
-          brightness: Brightness.dark,
           inputDecorationTheme: const InputDecorationTheme(
             border: OutlineInputBorder(),
           ),
