@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:frontend/pages/home_page_landscape.dart';
 import 'package:frontend/pages/home_page_portrait.dart';
 //import 'package:frontend/pages/QC_page.dart';
-import 'package:frontend/pages/login_page.dart';
+import 'package:frontend/pages/auth/login_page.dart';
 import 'package:frontend/pages/question_creation_page.dart';
 import 'package:frontend/pages/question_managment_page.dart';
-import 'package:frontend/pages/signup_page.dart';
+import 'package:frontend/pages/auth/signup_page.dart';
 import 'package:frontend/pages/faq.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +16,7 @@ import 'package:dio/dio.dart';
 void main() {
   setPathUrlStrategy();
   // runApp(MultiProvider(providers: [
-  //   // ChangeNotifierProvider(create: (context) => AuthProvider()),
+  //   ChangeNotifierProvider(create: (context) => AuthProvider()),
   // ], child: MyApp()));
   runApp(MyApp());
 }

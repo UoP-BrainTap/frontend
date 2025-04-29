@@ -1,8 +1,11 @@
+import 'package:dio/dio.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/main.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -16,6 +19,36 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final bool _obscureText = true;
+
+  String _password = '';
+  String _email = '';
+
+  _login(Dio dio) {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState?.save();
+      dio.post('/auth/login', data: {
+        'email': _email,
+        'password': _password,
+      }).then((response) async {
+        if (response.statusCode == 200) {
+          var shared = await SharedPreferences.getInstance();
+          shared.setString('token', response.data['token']);
+          shared.setString('role', response.data['role']);
+          context.go('/');
+        }
+      }).catchError((error) {
+        if (error is DioException) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Login failed: ${error.response}')),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Login failed: Unknown error')),
+          );
+        }
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +85,9 @@ class _LoginPageState extends State<LoginPage> {
                             ? null
                             : 'Please enter a valid email';
                       },
+                      onSaved: (value) {
+                        _email = value!;
+                      },
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
@@ -66,14 +102,14 @@ class _LoginPageState extends State<LoginPage> {
                         }
                         return null;
                       },
+                      onSaved: (value) {
+                        _password = value!;
+                      },
                     ),
                     const SizedBox(height: 20),
                     MaterialButton(
                         onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Logging in...')));
-                          }
+                          _login(Provider.of<Dio>(context, listen: false));
                         },
                         color: Theme.of(context).highlightColor,
                         child: const Text('Login')),
