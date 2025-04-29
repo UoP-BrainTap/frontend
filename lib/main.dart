@@ -8,18 +8,36 @@ import 'package:frontend/pages/question_creation_page.dart';
 import 'package:frontend/pages/question_managment_page.dart';
 import 'package:frontend/pages/auth/signup_page.dart';
 import 'package:frontend/pages/faq.dart';
+import 'package:frontend/pages/session_lecturer_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'package:dio/dio.dart';
 
+class RefreshNotify extends ChangeNotifier {
+  void refresh() {
+    notifyListeners();
+  }
+}
+
 void main() {
   setPathUrlStrategy();
-  // runApp(MultiProvider(providers: [
-  //   ChangeNotifierProvider(create: (context) => AuthProvider()),
-  // ], child: MyApp()));
-  runApp(MyApp());
+  runApp(MultiProvider(providers: [
+    Provider<Dio>(
+      create: (_) => DioProvider().dio,
+    ),
+    FutureProvider<SharedPreferencesWithCache?>(
+      create: (BuildContext context) {
+        return SharedPreferencesWithCache.create(cacheOptions: const SharedPreferencesWithCacheOptions(allowList: null));
+      },
+      initialData: null,
+    ),
+    ChangeNotifierProvider<RefreshNotify> (
+      create: (BuildContext context) => RefreshNotify(),
+    ),
+  ], child: MyApp()));
+  // runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -51,26 +69,32 @@ class MyApp extends StatelessWidget {
             GoRoute(
               path: 'lecturer',
               builder: (context, state) => const LecturerPage(),
+              routes: [
+                GoRoute(
+                  path: '/session',
+                  builder: (context, state) => const SessionLecturerPage(),
+                ),
+                GoRoute(
+                    path: 'question',
+                    redirect: (_, state) {
+                      if (state.uri.toString().endsWith("question")) {
+                        return '/';
+                      }
+                      return null;
+                    },
+                    routes: [
+                      GoRoute(
+                        path: 'create',
+                        builder: (context, state) => const QuestionCreationPage(),
+                      ),
+                      GoRoute(
+                        path: 'manage',
+                        builder: (context, state) => const QuestionManagementPage(),
+                      )
+                    ]
+                )
+              ]
             ),
-            GoRoute(
-              path: 'question',
-              redirect: (_, state) {
-                if (state.uri.toString().endsWith("question")) {
-                  return '/';
-                }
-                return null;
-              },
-           routes: [
-             GoRoute(
-               path: 'create',
-               builder: (context, state) => const QuestionCreationPage(),
-             ),
-             GoRoute(
-               path: 'manage',
-                builder: (context, state) => const QuestionManagementPage(),
-             )
-           ]
-            )
           ]),
     ],
   );
@@ -99,8 +123,8 @@ class DioProvider {
     instance.interceptors
         .add(InterceptorsWrapper(onRequest: (options, handler) async {
       // get access token from shared preferences
-      var shared = await SharedPreferences.getInstance();
-      var token = shared.getString('token');
+      var shared = SharedPreferencesAsync();
+      var token = await shared.getString('token');
       if (token == null || token.isEmpty) {
         handler.next(options);
         return;

@@ -25,20 +25,20 @@ class _LoginPageState extends State<LoginPage> {
   String _password = '';
   String _email = '';
 
-  _login(Dio dio) {
+  _login(Dio dio, BuildContext context) {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState?.save();
       dio.post('/auth/login', data: {
         'email': _email,
         'password': _password,
-      }).then((response) async {
+      }).then((response) {
         if (response.statusCode == 200) {
-          var shared = await SharedPreferences.getInstance();
+          var shared = SharedPreferencesAsync();
           Map data = jsonDecode(response.data);
           shared.setString('token', data['accessToken']);
           shared.setString('role', data['role']);
           shared.setInt('id', data['id']);
-          context.go('/');
+          context.go("/lecturer");
         }
       }).catchError((error) {
         if (error is DioException) {
@@ -114,7 +114,7 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(height: 20),
                     MaterialButton(
                         onPressed: () {
-                          _login(Provider.of<Dio>(context, listen: false));
+                          _login(Provider.of<Dio>(context, listen: false), context);
                         },
                         color: Theme.of(context).highlightColor,
                         child: const Text('Login')),

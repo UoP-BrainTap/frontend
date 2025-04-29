@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/main.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/button.dart';
 
-class HomeScreenLandscape extends StatelessWidget {
+class HomeScreenLandscape extends StatefulWidget {
   const HomeScreenLandscape({super.key});
 
   @override
+  State<StatefulWidget> createState() {
+    return HomeScreenLandscapeState();
+  }
+}
+
+class HomeScreenLandscapeState extends State<HomeScreenLandscape> {
+  @override
   Widget build(BuildContext context) {
+    var _ = Provider.of<RefreshNotify>(context);
     return Scaffold(
       backgroundColor: Colors.deepPurple.shade50,
       appBar: AppBar(
@@ -27,29 +38,59 @@ class HomeScreenLandscape extends StatelessWidget {
         ),
         backgroundColor: Colors.white,
         elevation: 0,
-        actions: [
-          const SizedBox(width: 20),
-          ButtonWidget(
-            width: 110,
-            text: "Log in",
-            onPressed: () {
-              context.go('/login');
-            },
-            isOutlined: true,
-            color: Colors.black,
-          ),
-          const SizedBox(width: 10),
-          ButtonWidget(
-            width: 110,
-            text: "Sign up",
-            onPressed: () {
-              context.go('/signup');
-            },
-            color: Colors.deepPurple,
-            textColor: Colors.white,
-          ),
-          const SizedBox(width: 50),
-        ],
+        actions: (() {
+          var shared = Provider.of<SharedPreferencesWithCache?>(context);
+          if (shared != null && shared.getString('token') != null) {
+            return [
+              ButtonWidget(
+                width: 200,
+                text: "Dashboard",
+                onPressed: () {
+                  context.go('/lecturer');
+                },
+                color: Colors.deepPurple,
+                textColor: Colors.white,
+              ),
+              const SizedBox(width: 10),
+              ButtonWidget(
+                width: 110,
+                text: "Logout",
+                onPressed: () {
+                  shared.remove('token');
+                  shared.remove('role');
+                  shared.remove('id');
+                  setState(() {});
+                },
+                isOutlined: true,
+                color: Colors.black,
+              ),
+            ];
+          } else {
+            return [
+              const SizedBox(width: 20),
+              ButtonWidget(
+                width: 110,
+                text: "Log in",
+                onPressed: () {
+                  context.go('/login');
+                },
+                isOutlined: true,
+                color: Colors.black,
+              ),
+              const SizedBox(width: 10),
+              ButtonWidget(
+                width: 110,
+                text: "Sign up",
+                onPressed: () {
+                  context.go('/signup');
+                },
+                color: Colors.deepPurple,
+                textColor: Colors.white,
+              ),
+              const SizedBox(width: 50),
+            ];
+          }
+        })(),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(2),
           child: Padding(

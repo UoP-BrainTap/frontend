@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/pages/data/question-api.dart';
-import 'package:frontend/pages/data/question-structs.dart';
+import 'package:frontend/pages/questions/question-structs.dart';
+import 'package:frontend/pages/questions/question-api.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LecturerPage extends StatefulWidget {
@@ -17,15 +18,18 @@ class _LecturerPageState extends State<LecturerPage> {
   @override
   void initState() {
     super.initState();
-    SharedPreferences.getInstance().then((shared) {
-      int lecturerId = shared.getInt('id')!;
+    var shared = SharedPreferencesAsync();
+    (() async {
+      int? lecturerId = await shared.getInt('id');
+      if (lecturerId == null) {
+        return;
+      }
       // Fetch questions from the API
-      QuestionApi.getUserQuestions(lecturerId).then((questions) {
-        setState(() {
-          _questions = questions;
-        });
+      var questions = await QuestionApi.getUserQuestions(lecturerId);
+      setState(() {
+        _questions = questions;
       });
-    });
+    })();
   }
 
   @override
@@ -46,9 +50,14 @@ class _LecturerPageState extends State<LecturerPage> {
               )
             ],
           ),
-          const SizedBox(
-            height: 20,
+          const SizedBox(height: 20),
+          ElevatedButton(
+              onPressed: () {
+                context.go('/lecturer/session');
+              },
+              child: const Text('Create Session', style: TextStyle(fontSize: 20))
           ),
+          const SizedBox(height: 30),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,7 +73,7 @@ class _LecturerPageState extends State<LecturerPage> {
                     const SizedBox(height: 10),
                     ElevatedButton(
                       onPressed: () {
-                        context.go('/question/create');
+                        context.go('/lecturer/question/create');
                       },
                       child: const Text('Create Question'),
                     ),

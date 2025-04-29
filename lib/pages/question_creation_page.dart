@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/pages/data/question-api.dart';
-import 'package:frontend/pages/data/question-structs.dart';
+import 'package:frontend/pages/questions/question-api.dart';
+import 'package:frontend/pages/questions/question-structs.dart';
 import 'package:frontend/widgets/button.dart';
 import 'package:go_router/go_router.dart';
-import 'package:password_strength_checker/password_strength_checker.dart';
 
 class QuestionCreationPage extends StatefulWidget {
   const QuestionCreationPage({super.key});

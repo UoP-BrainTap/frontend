@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:frontend/main.dart';
-import 'package:frontend/pages/data/question-structs.dart';
+import 'package:frontend/pages/questions/question-structs.dart';
 
 class QuestionApi {
   static var dio = DioProvider().dio;
