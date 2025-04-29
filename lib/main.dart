@@ -3,6 +3,7 @@ import 'package:frontend/pages/home_page_landscape.dart';
 import 'package:frontend/pages/home_page_portrait.dart';
 //import 'package:frontend/pages/QC_page.dart';
 import 'package:frontend/pages/auth/login_page.dart';
+import 'package:frontend/pages/lecturer_page.dart';
 import 'package:frontend/pages/question_creation_page.dart';
 import 'package:frontend/pages/question_managment_page.dart';
 import 'package:frontend/pages/auth/signup_page.dart';
@@ -46,6 +47,10 @@ class MyApp extends StatelessWidget {
             GoRoute(
               path: 'FAQ',
               builder: (context, state) => FAQpage(),
+            ),
+            GoRoute(
+              path: 'lecturer',
+              builder: (context, state) => const LecturerPage(),
             ),
             GoRoute(
               path: 'question',
@@ -95,7 +100,7 @@ class DioProvider {
         .add(InterceptorsWrapper(onRequest: (options, handler) async {
       // get access token from shared preferences
       var shared = await SharedPreferences.getInstance();
-      var token = shared.getString('accessToken');
+      var token = shared.getString('token');
       if (token == null || token.isEmpty) {
         handler.next(options);
         return;

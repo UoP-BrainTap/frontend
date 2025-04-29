@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/pages/data/question-api.dart';
+import 'package:frontend/pages/data/question-structs.dart';
 import 'package:frontend/widgets/button.dart';
+import 'package:go_router/go_router.dart';
 import 'package:password_strength_checker/password_strength_checker.dart';
 
 class QuestionCreationPage extends StatefulWidget {
@@ -59,15 +62,6 @@ class _QuestionCreationPageState extends State<QuestionCreationPage> {
       ),
     );
   }
-}
-
-enum QuestionType {
-  multipleChoice("Multiple Choice"),
-  shortText("Short Text");
-
-  final String name;
-
-  const QuestionType(this.name);
 }
 
 class QuestionTypeSelector extends StatelessWidget {
@@ -167,10 +161,19 @@ class _MultipleChoiceQuestionCreation
       return;
     }
     _formKey.currentState!.save();
-    print(_questionTitle);
-    for (var option in _options) {
-      print(option.state.currentState?._optionTitle);
-    }
+    MultipleChoiceQuestionData questionData = MultipleChoiceQuestionData(options: _options.map((option) {
+      return MultipleChoiceOptionData(
+        text: option.state.currentState!.optionTitle!,
+        isCorrect: option.state.currentState!.isCorrect ?? false,
+      );
+    }).toList());
+    Question<MultipleChoiceQuestionData> question = Question<MultipleChoiceQuestionData>(
+      question: _questionTitle!,
+      questionType: QuestionType.multipleChoice,
+      questionData: questionData
+    );
+    QuestionApi.createMultipleChoiceQuestion(question);
+    context.go('/lecturer');
   }
 
   @override
@@ -179,15 +182,15 @@ class _MultipleChoiceQuestionCreation
     var key1 = GlobalKey<_MultipleChoiceOptionWidgetState>();
     var widget1 = MultipleChoiceOptionWidget(
       key: key1,
-      canDelete: true,
-      onDelete: _optionDeleted,
+      canDelete: false,
+      onDelete: null,
     );
     _options.add(MultipleChoiceOption(key1, widget1));
     var key2 = GlobalKey<_MultipleChoiceOptionWidgetState>();
     var widget2 = MultipleChoiceOptionWidget(
       key: key2,
-      canDelete: true,
-      onDelete: _optionDeleted,
+      canDelete: false,
+      onDelete: null,
     );
     _options.add(MultipleChoiceOption(key2, widget2));
   }
@@ -262,7 +265,7 @@ class _MultipleChoiceOptionWidgetState
 
   // Form Data
   String? _optionTitle = "";
-  bool? _isCorrect= false;
+  bool? _isCorrect = false;
 
   @override
   Widget build(BuildContext context) {

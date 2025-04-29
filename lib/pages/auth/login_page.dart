@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/gestures.dart';
@@ -32,8 +34,10 @@ class _LoginPageState extends State<LoginPage> {
       }).then((response) async {
         if (response.statusCode == 200) {
           var shared = await SharedPreferences.getInstance();
-          shared.setString('token', response.data['token']);
-          shared.setString('role', response.data['role']);
+          Map data = jsonDecode(response.data);
+          shared.setString('token', data['accessToken']);
+          shared.setString('role', data['role']);
+          shared.setInt('id', data['id']);
           context.go('/');
         }
       }).catchError((error) {
@@ -42,6 +46,7 @@ class _LoginPageState extends State<LoginPage> {
             SnackBar(content: Text('Login failed: ${error.response}')),
           );
         } else {
+          print(error);
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Login failed: Unknown error')),
           );
