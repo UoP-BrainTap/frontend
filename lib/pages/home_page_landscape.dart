@@ -32,7 +32,10 @@ class HomeScreenLandscapeState extends State<HomeScreenLandscape> {
             const SizedBox(width: 10),
             const Text(
               'BrainTap',
-              style: TextStyle(fontWeight: FontWeight.w900, color: Colors.black, fontSize: 32),
+              style: TextStyle(
+                  fontWeight: FontWeight.w900,
+                  color: Colors.black,
+                  fontSize: 32),
             ),
           ],
         ),
@@ -120,17 +123,23 @@ class HomeScreenLandscapeState extends State<HomeScreenLandscape> {
                   children: [
                     const Text(
                       "LET'S START THE GAME!",
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.deepPurple),
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.deepPurple),
                     ),
                     const SizedBox(height: 10),
                     const Text(
                       "Dive into a World of Endless Trivia Fun",
-                      style: TextStyle(fontSize: 56, fontWeight: FontWeight.w900, color: Colors.black),
+                      style: TextStyle(
+                          fontSize: 56,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.black),
                     ),
                     const SizedBox(height: 10),
                     const Text(
                       "Get ready for an epic journey filled with exciting challenges and mind-boggling questions. "
-                          "Whether you're a casual player or a seasoned quiz master, there's always something new to discover!",
+                      "Whether you're a casual player or a seasoned quiz master, there's always something new to discover!",
                       style: TextStyle(fontSize: 16, color: Colors.black),
                     ),
                     const SizedBox(height: 40),
@@ -140,7 +149,7 @@ class HomeScreenLandscapeState extends State<HomeScreenLandscape> {
                           width: 130,
                           text: "Play now",
                           onPressed: () {
-                            context.go('/play');
+                            context.go('/join');
                           },
                           color: Colors.deepPurple,
                           textColor: Colors.white,
@@ -148,7 +157,7 @@ class HomeScreenLandscapeState extends State<HomeScreenLandscape> {
                         const SizedBox(width: 20),
                         TextButton(
                           onPressed: () {
-                            context.go('/create-quiz');
+                            context.go('/lecturer/question/create');
                           },
                           child: Column(
                             children: [
@@ -170,7 +179,8 @@ class HomeScreenLandscapeState extends State<HomeScreenLandscape> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 40), // Prevents text from being too close
+                    const SizedBox(
+                        height: 40), // Prevents text from being too close
                   ],
                 ),
               ),
@@ -211,7 +221,8 @@ class HomeScreenLandscapeState extends State<HomeScreenLandscape> {
                 color: Colors.white,
                 elevation: 0,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 20),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 60, vertical: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
