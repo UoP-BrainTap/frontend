@@ -103,7 +103,7 @@ class HomeScreen extends StatelessWidget {
                       const SizedBox(width: 20),
                       TextButton(
                         onPressed: () {
-                          context.go('/create-quiz');
+                          context.go('/question/create');
                         },
                         child: Column(
                           children: [
