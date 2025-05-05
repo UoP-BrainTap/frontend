@@ -3,6 +3,7 @@ import 'package:frontend/pages/home_page_landscape.dart';
 import 'package:frontend/pages/home_page_portrait.dart';
 //import 'package:frontend/pages/QC_page.dart';
 import 'package:frontend/pages/auth/login_page.dart';
+import 'package:frontend/pages/join_page.dart';
 import 'package:frontend/pages/lecturer_page.dart';
 import 'package:frontend/pages/question_creation_page.dart';
 import 'package:frontend/pages/question_managment_page.dart';
@@ -29,11 +30,13 @@ void main() {
     ),
     FutureProvider<SharedPreferencesWithCache?>(
       create: (BuildContext context) {
-        return SharedPreferencesWithCache.create(cacheOptions: const SharedPreferencesWithCacheOptions(allowList: null));
+        return SharedPreferencesWithCache.create(
+            cacheOptions:
+                const SharedPreferencesWithCacheOptions(allowList: null));
       },
       initialData: null,
     ),
-    ChangeNotifierProvider<RefreshNotify> (
+    ChangeNotifierProvider<RefreshNotify>(
       create: (BuildContext context) => RefreshNotify(),
     ),
   ], child: MyApp()));
@@ -63,38 +66,42 @@ class MyApp extends StatelessWidget {
               builder: (context, state) => const SignupPage(),
             ),
             GoRoute(
+              path: 'join',
+              builder: (context, state) => JoinSessionPage(),
+            ),
+            GoRoute(
               path: 'FAQ',
               builder: (context, state) => FAQpage(),
             ),
             GoRoute(
-              path: 'lecturer',
-              builder: (context, state) => const LecturerPage(),
-              routes: [
-                GoRoute(
-                  path: '/session',
-                  builder: (context, state) => const SessionLecturerPage(),
-                ),
-                GoRoute(
-                    path: 'question',
-                    redirect: (_, state) {
-                      if (state.uri.toString().endsWith("question")) {
-                        return '/';
-                      }
-                      return null;
-                    },
-                    routes: [
-                      GoRoute(
-                        path: 'create',
-                        builder: (context, state) => const QuestionCreationPage(),
-                      ),
-                      GoRoute(
-                        path: 'manage',
-                        builder: (context, state) => const QuestionManagementPage(),
-                      )
-                    ]
-                )
-              ]
-            ),
+                path: 'lecturer',
+                builder: (context, state) => const LecturerPage(),
+                routes: [
+                  GoRoute(
+                    path: '/session',
+                    builder: (context, state) => const SessionLecturerPage(),
+                  ),
+                  GoRoute(
+                      path: 'question',
+                      redirect: (_, state) {
+                        if (state.uri.toString().endsWith("question")) {
+                          return '/';
+                        }
+                        return null;
+                      },
+                      routes: [
+                        GoRoute(
+                          path: 'create',
+                          builder: (context, state) =>
+                              const QuestionCreationPage(),
+                        ),
+                        GoRoute(
+                          path: 'manage',
+                          builder: (context, state) =>
+                              const QuestionManagementPage(),
+                        )
+                      ])
+                ]),
           ]),
     ],
   );

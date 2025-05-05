@@ -20,7 +20,10 @@ class HomeScreenPortrait extends StatelessWidget {
             const SizedBox(width: 8),
             const Text(
               'BrainTap',
-              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 24),
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  fontSize: 24),
             ),
           ],
         ),
@@ -47,25 +50,32 @@ class HomeScreenPortrait extends StatelessWidget {
           Expanded(
             child: SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const Text(
                       "LET'S START THE GAME!",
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Colors.deepPurple),
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.deepPurple),
                     ),
                     const SizedBox(height: 10),
                     const Text(
                       "Dive into a World of Endless Trivia Fun",
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 32, fontWeight: FontWeight.w900, color: Colors.black),
+                      style: TextStyle(
+                          fontSize: 32,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.black),
                     ),
                     const SizedBox(height: 10),
                     const Text(
                       "Get ready for an epic journey filled with exciting challenges and mind-boggling questions. "
-                          "Whether you're a casual player or a seasoned quiz master, there's always something new to discover!",
+                      "Whether you're a casual player or a seasoned quiz master, there's always something new to discover!",
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 14, color: Colors.black),
                     ),
@@ -74,7 +84,7 @@ class HomeScreenPortrait extends StatelessWidget {
                       width: 150,
                       text: "Play now",
                       onPressed: () {
-                        context.go('/play');
+                        context.go('/join');
                       },
                       color: Colors.deepPurple,
                       textColor: Colors.white,
@@ -82,7 +92,7 @@ class HomeScreenPortrait extends StatelessWidget {
                     const SizedBox(height: 20),
                     TextButton(
                       onPressed: () {
-                        context.go('/create-quiz');
+                        context.go('/lecturer/question/create');
                       },
                       child: Column(
                         children: [
