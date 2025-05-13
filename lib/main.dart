@@ -59,7 +59,7 @@ class MyApp extends StatelessWidget {
           routes: [
             GoRoute(
               path: 'login',
-              builder: (context, state) => LoginPage(),
+              builder: (context, state) => const LoginPage(),
             ),
             GoRoute(
               path: 'signup',
@@ -67,7 +67,7 @@ class MyApp extends StatelessWidget {
             ),
             GoRoute(
               path: 'join',
-              builder: (context, state) => JoinSessionPage(),
+              builder: (context, state) => const JoinSessionPage(),
             ),
             GoRoute(
               path: 'FAQ',

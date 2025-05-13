@@ -13,7 +13,8 @@ import 'package:provider/provider.dart';
 
 void main() {
   group('Main App Tests', () {
-    testWidgets('renders HomeScreenPortrait on small screen', (WidgetTester tester) async {
+    testWidgets('renders HomeScreenPortrait on small screen',
+        (WidgetTester tester) async {
       tester.binding.window.physicalSizeTestValue = const Size(800, 1280);
       tester.binding.window.devicePixelRatioTestValue = 1.0;
 
@@ -26,7 +27,8 @@ void main() {
       addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
     });
 
-    testWidgets('renders HomeScreenLandscape on large screen', (WidgetTester tester) async {
+    testWidgets('renders HomeScreenLandscape on large screen',
+        (WidgetTester tester) async {
       tester.binding.window.physicalSizeTestValue = const Size(1200, 800);
       tester.binding.window.devicePixelRatioTestValue = 1.0;
 
@@ -39,12 +41,13 @@ void main() {
       addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
     });
 
-    testWidgets('navigates to LoginPage when "/login" is visited', (WidgetTester tester) async {
+    testWidgets('navigates to LoginPage when "/login" is visited',
+        (WidgetTester tester) async {
       final GoRouter router = GoRouter(
         routes: [
           GoRoute(
             path: '/login',
-            builder: (context, state) => LoginPage(),
+            builder: (context, state) => const LoginPage(),
           ),
         ],
       );
@@ -59,7 +62,8 @@ void main() {
       expect(find.byType(LoginPage), findsOneWidget);
     });
 
-    testWidgets('GoRouter renders nested lecturer page routes', (WidgetTester tester) async {
+    testWidgets('GoRouter renders nested lecturer page routes',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         MultiProvider(
           providers: [

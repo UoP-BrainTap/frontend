@@ -12,20 +12,23 @@ void main() {
       SharedPreferences.setMockInitialValues({'id': 1});
     });
 
-    testWidgets('displays the join code and QR code', (WidgetTester tester) async {
+    testWidgets('displays the join code and QR code',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: SessionLecturerPage(),
         ),
       );
 
-      expect(find.text('Join Code: 555555  Or scan QR with your phone'), findsOneWidget);
+      expect(find.text('Join Code: 555555  Or scan QR with your phone'),
+          findsOneWidget);
       expect(find.byType(QrImageView), findsOneWidget);
     });
 
-    testWidgets('displays the question selection area', (WidgetTester tester) async {
+    testWidgets('displays the question selection area',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: SessionLecturerPage(),
         ),
       );
@@ -34,9 +37,10 @@ void main() {
       expect(find.text('Select Question'), findsOneWidget);
     });
 
-    testWidgets('displays connected users section', (WidgetTester tester) async {
+    testWidgets('displays connected users section',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: SessionLecturerPage(),
         ),
       );
