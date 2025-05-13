@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
 class FAQpage extends StatelessWidget {
-
   final List<FAQ> faqlist = [
     FAQ(question: "A", answer: "B"),
     FAQ(question: "C", answer: "D"),
     FAQ(question: "E", answer: "F"),
   ];
+
+  const FAQpage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,18 +21,19 @@ class FAQpage extends StatelessWidget {
               showDialog(
                 context: context,
                 builder: (context) => AlertDialog(
-                  title: Text("Feature Coming Soon"),
-                  content: Text("This button can be used to add new FAQs!"),
+                  title: const Text("Feature Coming Soon"),
+                  content:
+                      const Text("This button can be used to add new FAQs!"),
                   actions: [
                     TextButton(
                       onPressed: () => Navigator.pop(context),
-                      child: Text("OK"),
+                      child: const Text("OK"),
                     ),
                   ],
                 ),
               );
             },
-            child: Text("Add FAQ"),
+            child: const Text("Add FAQ"),
           ),
           Expanded(
             child: ListView.builder(
@@ -60,4 +62,3 @@ class FAQ {
   final String answer;
   FAQ({required this.question, required this.answer});
 }
-

@@ -9,7 +9,7 @@ void main() {
   group('QuestionCreationPage', () {
     testWidgets('displays the app bar title', (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: QuestionCreationPage(),
         ),
       );
@@ -17,9 +17,10 @@ void main() {
       expect(find.text('Create a Question'), findsOneWidget);
     });
 
-    testWidgets('displays question type selectors', (WidgetTester tester) async {
+    testWidgets('displays question type selectors',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: QuestionCreationPage(),
         ),
       );
@@ -28,9 +29,11 @@ void main() {
       expect(find.text('Short Text'), findsOneWidget);
     });
 
-    testWidgets('displays MultipleChoiceQuestionCreation when multiple choice is selected', (WidgetTester tester) async {
+    testWidgets(
+        'displays MultipleChoiceQuestionCreation when multiple choice is selected',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: QuestionCreationPage(),
         ),
       );
@@ -41,9 +44,10 @@ void main() {
       expect(find.byType(MultipleChoiceQuestionCreation), findsOneWidget);
     });
 
-    testWidgets('adds an option when "Add Option" button is pressed', (WidgetTester tester) async {
+    testWidgets('adds an option when "Add Option" button is pressed',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: QuestionCreationPage(),
         ),
       );
@@ -61,7 +65,7 @@ void main() {
 
     testWidgets('validates question title input', (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: QuestionCreationPage(),
         ),
       );
