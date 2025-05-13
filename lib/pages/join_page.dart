@@ -30,12 +30,9 @@ class _JoinSessionPageState extends State<JoinSessionPage> {
 
     try {
       final dio = Provider.of<Dio>(context, listen: false);
-      final response = await dio.post('/quiz/join', data: {
-        'session_code': sessionCode,
-      });
-
+      final response = await dio.get('/api/v1/sessions/$sessionCode');
       if (response.statusCode == 200) {
-        context.go('/session/$sessionCode');
+        context.go('/join/$sessionCode');
       } else {
         setState(() {
           _errorMessage = response.data['message'] ?? "Invalid session code.";

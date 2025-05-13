@@ -171,6 +171,22 @@ class _MultipleChoiceQuestionCreation
       questionType: QuestionType.multipleChoice,
       questionData: questionData
     );
+    bool isValid = false;
+    for (var option in questionData.options) {
+      if (option.isCorrect) {
+        isValid = true;
+        break;
+      }
+    }
+    if (!isValid) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please select at least one correct answer'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+      return;
+    }
     QuestionApi.createMultipleChoiceQuestion(question);
     context.go('/lecturer');
   }

@@ -121,17 +121,6 @@ class _LecturerPageState extends State<LecturerPage> {
                     })(),
                   ],
                 ),
-              ),
-              ConstrainedBox(
-                constraints: const BoxConstraints(minWidth: 300),
-                child: Column(
-                  children: [
-                    Text(
-                      'Sessions',
-                      style: Theme.of(context).textTheme.headlineSmall,
-                    )
-                  ],
-                ),
               )
             ],
           )

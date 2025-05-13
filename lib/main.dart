@@ -10,6 +10,7 @@ import 'package:frontend/pages/question_managment_page.dart';
 import 'package:frontend/pages/auth/signup_page.dart';
 import 'package:frontend/pages/faq.dart';
 import 'package:frontend/pages/session_lecturer_page.dart';
+import 'package:frontend/pages/session_student_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -59,7 +60,7 @@ class MyApp extends StatelessWidget {
           routes: [
             GoRoute(
               path: 'login',
-              builder: (context, state) => LoginPage(),
+              builder: (context, state) => const LoginPage(),
             ),
             GoRoute(
               path: 'signup',
@@ -67,7 +68,13 @@ class MyApp extends StatelessWidget {
             ),
             GoRoute(
               path: 'join',
-              builder: (context, state) => JoinSessionPage(),
+              builder: (context, state) => const JoinSessionPage(),
+              routes: [
+                GoRoute(
+                  path: '/:sessionCode',
+                  builder: (context, state) => SessionStudentPage(code: state.pathParameters['sessionCode']!),
+                ),
+              ]
             ),
             GoRoute(
               path: 'FAQ',

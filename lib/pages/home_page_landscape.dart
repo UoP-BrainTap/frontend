@@ -3,6 +3,7 @@ import 'package:frontend/main.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 import '../widgets/button.dart';
 
 class HomeScreenLandscape extends StatefulWidget {
@@ -155,28 +156,28 @@ class HomeScreenLandscapeState extends State<HomeScreenLandscape> {
                           textColor: Colors.white,
                         ),
                         const SizedBox(width: 20),
-                        TextButton(
-                          onPressed: () {
-                            context.go('/lecturer/question/create');
-                          },
-                          child: Column(
-                            children: [
-                              const Text(
-                                "Create Your Quiz",
-                                style: TextStyle(
-                                  color: Colors.deepPurple,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(height: 5),
-                              Container(
-                                width: 130,
-                                height: 2,
-                                color: Colors.deepPurple,
-                              ),
-                            ],
-                          ),
-                        ),
+                        // TextButton(
+                        //   onPressed: () {
+                        //     context.go('/lecturer/question/create');
+                        //   },
+                        //   child: Column(
+                        //     children: [
+                        //       const Text(
+                        //         "Create Your Quiz",
+                        //         style: TextStyle(
+                        //           color: Colors.deepPurple,
+                        //           fontWeight: FontWeight.bold,
+                        //         ),
+                        //       ),
+                        //       const SizedBox(height: 5),
+                        //       Container(
+                        //         width: 130,
+                        //         height: 2,
+                        //         color: Colors.deepPurple,
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
                       ],
                     ),
                     const SizedBox(

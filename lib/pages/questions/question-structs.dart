@@ -51,14 +51,29 @@ class MultipleChoiceQuestionData extends QuestionData {
   MultipleChoiceQuestionData({required this.options});
 
   static MultipleChoiceQuestionData fromMap(List data) {
-    var multipleChoiceOptions = data.map((option) => MultipleChoiceOptionData(text: option['option_text'], isCorrect: option['is_correct'])).toList();
+    var multipleChoiceOptions = data.map((option) => MultipleChoiceOptionData(id: option['id'], text: option['option_text'], isCorrect: option['is_correct'])).toList();
     return MultipleChoiceQuestionData(options: multipleChoiceOptions);
   }
 }
 
 class MultipleChoiceOptionData {
+  final int? id;
   final String text;
   final bool isCorrect;
 
-  MultipleChoiceOptionData({required this.text, required this.isCorrect});
+  MultipleChoiceOptionData({this.id, required this.text, required this.isCorrect});
+}
+
+class Session {
+  final int sessionId;
+  final int sessionCode;
+
+  Session(this.sessionId, this.sessionCode);
+}
+
+class SessionMembership {
+  int? sessionUserId;
+  String? anonymousId;
+
+  SessionMembership(this.sessionUserId, this.anonymousId);
 }
