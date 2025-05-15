@@ -7,8 +7,8 @@ void main() {
   group('HomeScreenPortrait Widget Tests', () {
     testWidgets('App bar displays correctly', (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: const HomeScreenPortrait(),
+        const MaterialApp(
+          home: HomeScreenPortrait(),
         ),
       );
 
@@ -16,20 +16,23 @@ void main() {
       expect(find.byType(Image), findsWidgets);
     });
 
-    testWidgets('Body content is displayed correctly', (WidgetTester tester) async {
+    testWidgets('Body content is displayed correctly',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: const HomeScreenPortrait(),
+        const MaterialApp(
+          home: HomeScreenPortrait(),
         ),
       );
 
       expect(find.text("LET'S START THE GAME!"), findsOneWidget);
-      expect(find.text('Dive into a World of Endless Trivia Fun'), findsOneWidget);
+      expect(
+          find.text('Dive into a World of Endless Trivia Fun'), findsOneWidget);
       expect(find.text('Play now'), findsOneWidget);
       expect(find.text('Create Your Quiz'), findsOneWidget);
     });
 
-    testWidgets('Play now button navigates to /play', (WidgetTester tester) async {
+    testWidgets('Play now button navigates to /play',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp.router(
           routerConfig: GoRouter(
@@ -53,7 +56,8 @@ void main() {
       expect(find.text('Play Screen'), findsOneWidget);
     });
 
-    testWidgets('Create Your Quiz button navigates to /create-quiz', (WidgetTester tester) async {
+    testWidgets('Create Your Quiz button navigates to /create-quiz',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp.router(
           routerConfig: GoRouter(
@@ -77,14 +81,16 @@ void main() {
       expect(find.text('Create Quiz Screen'), findsOneWidget);
     });
 
-    testWidgets('Footer contains correct text and actions', (WidgetTester tester) async {
+    testWidgets('Footer contains correct text and actions',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: const HomeScreenPortrait(),
+        const MaterialApp(
+          home: HomeScreenPortrait(),
         ),
       );
 
-      expect(find.text('© 2025 BrainTap. All rights reserved.'), findsOneWidget);
+      expect(
+          find.text('© 2025 BrainTap. All rights reserved.'), findsOneWidget);
       expect(find.text('Privacy Policy'), findsOneWidget);
       expect(find.text('Terms of Service'), findsOneWidget);
 

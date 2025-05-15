@@ -9,7 +9,7 @@ void main() {
   group('QuestionManagementPage', () {
     testWidgets('displays the app bar title', (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: QuestionManagementPage(),
         ),
       );
@@ -17,9 +17,10 @@ void main() {
       expect(find.text('Manage Questions'), findsOneWidget);
     });
 
-    testWidgets('displays the questions placeholder text', (WidgetTester tester) async {
+    testWidgets('displays the questions placeholder text',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: QuestionManagementPage(),
         ),
       );
@@ -27,9 +28,10 @@ void main() {
       expect(find.text('Questions will be displayed here'), findsOneWidget);
     });
 
-    testWidgets('displays multiple choice question entries', (WidgetTester tester) async {
+    testWidgets('displays multiple choice question entries',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: QuestionManagementPage(),
         ),
       );
@@ -37,12 +39,14 @@ void main() {
       expect(find.byType(MultipleChoiceQuestionEntry), findsNWidgets(9));
     });
 
-    testWidgets('navigates to question management page on tap', (WidgetTester tester) async {
+    testWidgets('navigates to question management page on tap',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: QuestionManagementPage(),
+          home: const QuestionManagementPage(),
           routes: {
-            '/question/manage/1': (context) => const Scaffold(body: Text('Question Management')),
+            '/question/manage/1': (context) =>
+                const Scaffold(body: Text('Question Management')),
           },
         ),
       );

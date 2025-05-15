@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LecturerPage extends StatefulWidget {
-  const LecturerPage({Key? key}) : super(key: key);
+  const LecturerPage({super.key});
 
   @override
   State<LecturerPage> createState() => _LecturerPageState();
@@ -55,8 +55,8 @@ class _LecturerPageState extends State<LecturerPage> {
               onPressed: () {
                 context.go('/lecturer/session');
               },
-              child: const Text('Create Session', style: TextStyle(fontSize: 20))
-          ),
+              child:
+                  const Text('Create Session', style: TextStyle(fontSize: 20))),
           const SizedBox(height: 30),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -93,12 +93,14 @@ class _LecturerPageState extends State<LecturerPage> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Expanded(
                                     child: Text(
                                       question.question,
-                                      style: Theme.of(context).textTheme.bodyLarge,
+                                      style:
+                                          Theme.of(context).textTheme.bodyLarge,
                                       textAlign: TextAlign.start,
                                     ),
                                   ),

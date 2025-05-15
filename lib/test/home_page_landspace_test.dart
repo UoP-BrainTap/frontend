@@ -24,7 +24,8 @@ void main() {
       expect(find.byType(Image), findsWidgets);
     });
 
-    testWidgets('Body text and buttons are displayed correctly', (WidgetTester tester) async {
+    testWidgets('Body text and buttons are displayed correctly',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Provider<SharedPreferences?>(
@@ -35,12 +36,14 @@ void main() {
       );
 
       expect(find.text("LET'S START THE GAME!"), findsOneWidget);
-      expect(find.text('Dive into a World of Endless Trivia Fun'), findsOneWidget);
+      expect(
+          find.text('Dive into a World of Endless Trivia Fun'), findsOneWidget);
       expect(find.text('Play now'), findsOneWidget);
       expect(find.text('Create Your Quiz'), findsOneWidget);
     });
 
-    testWidgets('Navigation to /play works on Play now button tap', (WidgetTester tester) async {
+    testWidgets('Navigation to /play works on Play now button tap',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Provider<SharedPreferences?>(
@@ -54,13 +57,15 @@ void main() {
       await tester.pumpAndSettle();
     });
 
-    testWidgets('Logged-in user actions are displayed', (WidgetTester tester) async {
+    testWidgets('Logged-in user actions are displayed',
+        (WidgetTester tester) async {
       SharedPreferences.setMockInitialValues({'token': 'testToken'});
 
       await tester.pumpWidget(
         MaterialApp(
           home: Provider<SharedPreferences?>(
-            create: (_) => SharedPreferences.getInstance() as SharedPreferences?,
+            create: (_) =>
+                SharedPreferences.getInstance() as SharedPreferences?,
             child: const HomeScreenLandscape(),
           ),
         ),
@@ -72,13 +77,15 @@ void main() {
       expect(find.text('Sign up'), findsNothing);
     });
 
-    testWidgets('Logged-out user actions are displayed', (WidgetTester tester) async {
+    testWidgets('Logged-out user actions are displayed',
+        (WidgetTester tester) async {
       SharedPreferences.setMockInitialValues({});
 
       await tester.pumpWidget(
         MaterialApp(
           home: Provider<SharedPreferences?>(
-            create: (_) => SharedPreferences.getInstance() as SharedPreferences?,
+            create: (_) =>
+                SharedPreferences.getInstance() as SharedPreferences?,
             child: const HomeScreenLandscape(),
           ),
         ),
@@ -90,14 +97,16 @@ void main() {
       expect(find.text('Logout'), findsNothing);
     });
 
-    testWidgets('Footer contains correct text and actions', (WidgetTester tester) async {
+    testWidgets('Footer contains correct text and actions',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: const HomeScreenLandscape(),
+        const MaterialApp(
+          home: HomeScreenLandscape(),
         ),
       );
 
-      expect(find.text('© 2025 BrainTap. All rights reserved.'), findsOneWidget);
+      expect(
+          find.text('© 2025 BrainTap. All rights reserved.'), findsOneWidget);
       expect(find.text('Privacy Policy'), findsOneWidget);
       expect(find.text('Terms of Service'), findsOneWidget);
 
