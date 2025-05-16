@@ -4,9 +4,11 @@ import 'package:dio/dio.dart';
 import 'package:frontend/main.dart';
 import 'package:frontend/pages/questions/question-structs.dart';
 
+/// API wrapper for managing questions and sessions
 class QuestionApi {
   static var dio = DioProvider().dio;
 
+  /// Fetches all questions for a given [userId]
   static Future<List<Question>> getUserQuestions(int userId) async {
     var getQuestionsResponse = await dio.get('/api/v1/questions/user/$userId');
     if (getQuestionsResponse.statusCode == 200) {
@@ -22,6 +24,7 @@ class QuestionApi {
     }
   }
 
+  /// Fetches a [Question] by its [id]
   static Future<Question<QuestionData>?> getQuestionById(String id) async {
     var getQuestionResponse = await dio.get('/api/v1/questions/$id');
     late Question question;
@@ -33,6 +36,8 @@ class QuestionApi {
     return await fetchQuestionData(question);
   }
 
+  /// Fetches the question data for a given [question] and attaches it to the
+  /// question object.
   static Future<Question> fetchQuestionData(Question question) async {
     if (question.id == null) {
       throw Exception('Question ID is null');
@@ -44,6 +49,7 @@ class QuestionApi {
     return question;
   }
 
+  /// Fetches the [MultipleChoiceQuestionData] for a given [id]
   static Future<MultipleChoiceQuestionData> getMultipleChoiceQuestionData(String id) async {
     var getQuestionResponse = await dio.get('/api/v1/questions/multiple-choice/$id/options');
     if (getQuestionResponse.statusCode == 200) {
@@ -54,6 +60,7 @@ class QuestionApi {
     }
   }
 
+  /// Creates a new multiple choice question from the podo [question]
   static Future<void> createMultipleChoiceQuestion(Question<MultipleChoiceQuestionData> question) async {
     var createQuestionResponse = await dio.post('/api/v1/questions/multiple-choice/', data: {
       'question-title': question.question,
@@ -72,6 +79,7 @@ class QuestionApi {
     }
   }
 
+  /// Deletes a question by its [id]
   static Future<void> deleteQuestion(int id) async {
     var deleteQuestionResponse = await dio.delete('/api/v1/questions/$id');
     if (deleteQuestionResponse.statusCode != 200) {
@@ -79,6 +87,7 @@ class QuestionApi {
     }
   }
 
+  /// Creates a new session and returns the podo [Session]
   static Future<Session> newSession() async {
     var newSessionResponse = await dio.post('/api/v1/sessions/new');
     if (newSessionResponse.statusCode == 200) {
@@ -89,6 +98,7 @@ class QuestionApi {
     }
   }
 
+  /// Joins an existing session with the given [sessionCode] and returns the
   static Future<SessionMembership> joinSession(String sessionCode) async {
     var joinSessionResponse = await dio.post('/api/v1/sessions/join/$sessionCode');
     if (joinSessionResponse.statusCode == 200) {
@@ -99,6 +109,8 @@ class QuestionApi {
     }
   }
 
+  /// Fetches the active [Question] for a given [sessionCode]. Return is null if
+  /// no active question is found.
   static Future<Question?> getActiveQuestion(String sessionCode) async {
     var getActiveQuestionResponse = await dio.get('/api/v1/sessions/$sessionCode/question');
     if (getActiveQuestionResponse.statusCode == 200) {
@@ -109,6 +121,7 @@ class QuestionApi {
     }
   }
 
+  /// Sets the active [questionId] for a given [sessionCode]
   static Future<void> setActiveQuestion(String sessionCode, int questionId) async {
     var setActiveQuestionResponse = await dio.post('/api/v1/sessions/$sessionCode/question', data: {
       'question_id': questionId,
@@ -118,6 +131,8 @@ class QuestionApi {
     }
   }
 
+  /// Submits a multiple choice answer for a given [sessionCode],
+  /// [sessionUserId], and [optionId]
   static Future<void> submitMultiChoiceAnswer(String sessionCode, int sessionUserId, int optionId) async {
     var submitAnswerResponse = await dio.post('/api/v1/sessions/$sessionCode/question/answer', data: {
       'session_user_id': sessionUserId,
