@@ -35,11 +35,10 @@ class Question<T extends QuestionData> {
 
   static Question<QuestionData> fromMap(Map data) {
     return Question(
-      id: data['id'],
-      ownerId: data['owner_id'],
-      question: data['question'],
-      questionType: QuestionType.fromString(data['question_type'])
-    );
+        id: data['id'],
+        ownerId: data['owner_id'],
+        question: data['question'],
+        questionType: QuestionType.fromString(data['question_type']));
   }
 }
 
@@ -51,7 +50,10 @@ class MultipleChoiceQuestionData extends QuestionData {
   MultipleChoiceQuestionData({required this.options});
 
   static MultipleChoiceQuestionData fromMap(List data) {
-    var multipleChoiceOptions = data.map((option) => MultipleChoiceOptionData(id: option['id'], text: option['option_text'], isCorrect: option['is_correct'])).toList();
+    var multipleChoiceOptions = data
+        .map((option) => MultipleChoiceOptionData(
+            text: option['option_text'], isCorrect: option['is_correct']))
+        .toList();
     return MultipleChoiceQuestionData(options: multipleChoiceOptions);
   }
 }
