@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/pages/questions/question-structs.dart';
 import 'package:frontend/pages/questions/question-api.dart';
 
-class MockDio extends Dio {
+abstract class MockDio extends Dio {
   final Map<String, dynamic> responses = {};
 
   void addMockResponse(String path, dynamic response, {int statusCode = 200}) {
@@ -42,7 +42,8 @@ class MockDio extends Dio {
   }
 
   @override
-  Future<Response<T>> post<T>(String path, {dynamic data, Options? options}) async {
+  Future<Response<T>> post<T>(String path,
+      {dynamic data, Options? options}) async {
     if (responses.containsKey(path)) {
       return Response<T>(
         statusCode: responses[path]['statusCode'] as int,
@@ -69,10 +70,15 @@ void main() {
       const userId = 1;
       final mockResponseData = [
         {'id': 1, 'question': 'What is Flutter?', 'questionType': 'text'},
-        {'id': 2, 'question': 'Explain State Management', 'questionType': 'text'},
+        {
+          'id': 2,
+          'question': 'Explain State Management',
+          'questionType': 'text'
+        },
       ];
 
-      mockDio.addMockResponse('/api/v1/questions/user/$userId', mockResponseData);
+      mockDio.addMockResponse(
+          '/api/v1/questions/user/$userId', mockResponseData);
 
       final questions = await QuestionApi.getUserQuestions(userId);
 
@@ -85,7 +91,8 @@ void main() {
     test('deleteQuestion sends a delete request', () async {
       const questionId = 1;
 
-      mockDio.addMockResponse('/api/v1/questions/$questionId', null, statusCode: 200);
+      mockDio.addMockResponse('/api/v1/questions/$questionId', null,
+          statusCode: 200);
 
       await QuestionApi.deleteQuestion(questionId);
 
@@ -105,7 +112,8 @@ void main() {
         ),
       );
 
-      mockDio.addMockResponse('/api/v1/questions/multiple-choice/', null, statusCode: 200);
+      mockDio.addMockResponse('/api/v1/questions/multiple-choice/', null,
+          statusCode: 200);
 
       await QuestionApi.createMultipleChoiceQuestion(question);
 
