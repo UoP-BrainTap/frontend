@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/pages/auth/signup_page.dart';
-import 'package:go_router/go_router.dart';
 import 'package:password_strength_checker/password_strength_checker.dart';
 
 void main() {
   group('SignupPage Widget Tests', () {
-    testWidgets('should show form with email, password, and confirm password fields', (WidgetTester tester) async {
+    testWidgets(
+        'should show form with email, password, and confirm password fields',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: const SignupPage(),
@@ -17,7 +18,8 @@ void main() {
       expect(find.byType(MaterialButton), findsOneWidget);
     });
 
-    testWidgets('should show error when email is invalid', (WidgetTester tester) async {
+    testWidgets('should show error when email is invalid',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: const SignupPage(),
@@ -31,7 +33,8 @@ void main() {
       expect(find.text('Please enter a valid email'), findsOneWidget);
     });
 
-    testWidgets('should show error when passwords do not match', (WidgetTester tester) async {
+    testWidgets('should show error when passwords do not match',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: const SignupPage(),
@@ -47,7 +50,8 @@ void main() {
       expect(find.text('Passwords do not match'), findsOneWidget);
     });
 
-    testWidgets('should show no error when passwords match and email is valid', (WidgetTester tester) async {
+    testWidgets('should show no error when passwords match and email is valid',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: const SignupPage(),
@@ -63,7 +67,8 @@ void main() {
       expect(find.text('Passwords do not match'), findsNothing);
     });
 
-    testWidgets('should show PasswordStrengthChecker and update strength', (WidgetTester tester) async {
+    testWidgets('should show PasswordStrengthChecker and update strength',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: const SignupPage(),
@@ -84,10 +89,15 @@ void main() {
 
       expect(passwordStrengthNotifier.value?.strength, equals(1));
 
-      await tester.enterText(find.byType(TextFormField).at(1), 'Str0ngP@ssw0rd!');
+      await tester.enterText(
+          find.byType(TextFormField).at(1), 'Str0ngP@ssw0rd!');
       await tester.pump();
 
       expect(passwordStrengthNotifier.value?.strength, equals(4));
     });
   });
+}
+
+extension on PasswordStrength? {
+  get strength => null;
 }
